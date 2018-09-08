@@ -1,6 +1,16 @@
 #pragma once
 #include <string>
-#include <type_traits>
+#include <functional>
+
+// class, and must use memberName, member, ... as args
+template <typename... Args>
+std::function<std::string()> getJsonByMember(const Args&... args);
+
+template <typename First, typename... Args>
+std::string getJsonMember(const std::string& key, const First& value, const Args&... args);
+
+template <typename First>
+std::string getJsonMember(const std::string& key, const First& value);
 
 template <typename T>
 std::string getJsonChar(const T& c);
@@ -22,6 +32,24 @@ std::string getJsonPair(const T& p);
 
 template <typename T>
 std::string getJsonPair(const T& p);
+
+// class, and must use memberName, member, ... as args
+template <typename... Args>
+std::function<std::string()> getJsonByMember(const Args&... args) {
+	return [&]()->std::string {
+		return "{ " + getJsonMember(args...) + "}";
+	};
+}
+
+template <typename First, typename... Args>
+std::string getJsonMember(const std::string& key, const First& value, const Args&... args) {
+	return getJsonMember(key, value) + getJsonMember(args...);
+}
+
+template <typename First>
+std::string getJsonMember(const std::string& key, const First& value) {
+	return key + ": " + getJson(value) + ", ";
+}
 
 // std::is_arithmetic<T>() == std::true_type()
 template <typename T>
@@ -46,7 +74,7 @@ std::string getJsonBool(const T& b) {
 // std::string
 template <typename T>
 std::string getJsonStr(const T& str) {
-	return { "\"" + std::string(str) + "\"" };
+	return "\"" + std::string(str) + "\"";
 }
 
 // T[], const T[] but not char[]
