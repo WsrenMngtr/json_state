@@ -12,17 +12,26 @@
 #include <map>
 #include <unordered_map>
 
+#include <type_traits>
+
 #include "getJsonType.h"
 
-//
+// std::is_arithmetic<T>() == std::true_type()
+// other
 template <typename T>
 std::string getJson(const T& t);
+template <typename T>
+std::string getJsonIsArith(const T& t, std::true_type);
+template <typename T>
+std::string getJsonIsArith(const T& t, std::false_type);
 
-// getJsonChar
+// char
 template <>
 std::string getJson(const char& c);
 
-// getJsonStr
+// char*, const char*, char* const, const char* const
+// char[], const char[]
+// std::string
 template <>
 std::string getJson(const std::string& s);
 template <size_t N>
@@ -75,13 +84,15 @@ std::string getJson(const std::unordered_multimap<K, V>& m);
 
 //---------------------------------------
 
-// getJsonChar
+// char
 template <>
 std::string getJson(const char& c) {
 	return getJsonChar(c);
 }
 
-// getJsonStr
+// char*, const char*, char* const, const char* const
+// char[], const char[]
+// std::string
 template <>
 std::string getJson(const std::string& s) {
 	return getJsonStr(s);
@@ -173,8 +184,17 @@ std::string getJson(const std::unordered_multimap<K, V>& m) {
 	return getJsonAssoc(m);
 }
 
-// 
+// std::is_arithmetic<T>() == std::true_type()
+// other
 template <typename T>
 std::string getJson(const T& t) {
-	return "default getJson";
+	return getJsonIsArith(t, std::is_arithmetic<T>());
+}
+template <typename T>
+std::string getJsonIsArith(const T& t, std::true_type) {
+	return getJsonArithmetic(t);
+}
+template <typename T>
+std::string getJsonIsArith(const T& t, std::false_type) {
+	return getJsonClass(t);
 }
