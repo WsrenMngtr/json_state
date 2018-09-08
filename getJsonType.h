@@ -3,6 +3,12 @@
 #include <type_traits>
 
 template <typename T>
+std::string getJsonChar(const T& c);
+
+template <typename T>
+std::string getJsonBool(const T& c);
+
+template <typename T>
 std::string getJsonArithmetic(const T& a);
 
 template <typename T>
@@ -29,12 +35,18 @@ std::string getJsonChar(const T& c) {
 	return { '\'', c, '\'' };
 }
 
+// bool
+template <typename T>
+std::string getJsonBool(const T& b) {
+	return b ? "true" : "false";
+}
+
 // char*, const char*, char* const, const char* const
 // char[], const char[]
 // std::string
 template <typename T>
 std::string getJsonStr(const T& str) {
-	return '\"' + std::string(str) + '\"';
+	return { "\"" + std::string(str) + "\"" };
 }
 
 // T[], const T[] but not char[]

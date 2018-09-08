@@ -29,6 +29,10 @@ std::string getJsonIsArith(const T& t, std::false_type);
 template <>
 std::string getJson(const char& c);
 
+// bool
+template <>
+std::string getJson(const bool& b);
+
 // char*, const char*, char* const, const char* const
 // char[], const char[]
 // std::string
@@ -82,12 +86,26 @@ std::string getJson(const std::unordered_map<K, V>& m);
 template <typename K, typename V>
 std::string getJson(const std::unordered_multimap<K, V>& m);
 
+// Args...
+template <typename... Args>
+std::string getJson(const Args&... args);
+template <typename First, typename... Args>
+std::string getJsonArgs(const First& first, const Args&... args);
+template <typename T>
+std::string getJsonArgs(const T& t);
+
 //---------------------------------------
 
 // char
 template <>
 std::string getJson(const char& c) {
 	return getJsonChar(c);
+}
+
+// bool
+template <>
+std::string getJson(const bool& b) {
+	return getJsonBool(b);
 }
 
 // char*, const char*, char* const, const char* const
@@ -197,4 +215,18 @@ std::string getJsonIsArith(const T& t, std::true_type) {
 template <typename T>
 std::string getJsonIsArith(const T& t, std::false_type) {
 	return getJsonClass(t);
+}
+
+// Args...
+template <typename... Args>
+std::string getJson(const Args&... args) {
+	return "{ " + getJsonArgs(args...) + "}";
+}
+template <typename First, typename... Args>
+std::string getJsonArgs(const First& first , const Args&... args) {
+	return getJson(first) + ", " + getJsonArgs(args...);
+}
+template <typename T>
+std::string getJsonArgs(const T& t) {
+	return getJson(t);
 }
