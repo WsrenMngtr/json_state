@@ -16,7 +16,7 @@ std::string str = std::string(str)
 std::string str = 'p' + std::to_string((int)p);
 
 // T[], const T[] but not char[]
-// vector, deque, list, forward_list, initlizer_list
+// vector, array, deque, list, forward_list, initlizer_list
 std::string str;
 str.append("[");
 for (const T& element: array) {
@@ -25,10 +25,19 @@ for (const T& element: array) {
 }
 str.append("]");
 
-// set,... 
+// pair
+std::string str = getJson(p.first) + ": " + getJson(p.second);
 
-// map,...
+// set, multiset, unordered_set, unordered_multiset
+// map, multimap, unordered_map, unordered_multimap
+std::string str;
+str.append("{");
+for (const T& element: array) {
+    str.append(getJson(element));
+    str.append(", ");
+}
+str.append("}");
 
 // others
-std::string str = t.getJson
+std::string str = t.getJson();
 ```

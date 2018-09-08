@@ -35,3 +35,22 @@ std::string getJsonList(const T& l) {
 	str.append("]");
 	return str;
 }
+
+// pair
+template <typename T>
+std::string getJsonPair(const T& p) {
+	std::string str = getJson(p.first) + ": " + getJson(p.second);
+}
+
+// set, multiset, unordered_set, unordered_multiset
+// map, multimap, unordered_map, unordered_multimap
+template <typename T>
+std::string getJsonPair(const T& p) {
+	std::string str;
+	str.append("{");
+	for (const T& element : array) {
+		str.append(getJson(element));
+		str.append(", ");
+	}
+	str.append("}");
+}
