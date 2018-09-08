@@ -54,3 +54,9 @@ std::string getJsonPair(const T& p) {
 	}
 	str.append("}");
 }
+
+// other
+template <typename T>
+std::string getJsonClass(const T& o) {
+	return o.getJson();
+}
