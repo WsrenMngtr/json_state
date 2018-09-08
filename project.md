@@ -7,6 +7,9 @@ std::string getJson(const T& t);
 // std::is_arithmetic<T>() == std::true_type()
 std::string str = std::to_string(a);
 
+// char
+std::string str = {c};
+
 // char*, const char*, char* const, const char* const
 // char[], const char[]
 // std::string

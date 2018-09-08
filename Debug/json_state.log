@@ -1,7 +1,2 @@
 ﻿  json_state.cpp
-d:\programs\cpp_programs\json_state\json_state\getjson.h(34): error C3861: “getJson”: 找不到标识符
-  d:\programs\cpp_programs\json_state\json_state\json_state.cpp(20): note: 参见对正在编译的函数 模板 实例化“std::string getJsonList<int[4]>(const T (&))”的引用
-          with
-          [
-              T=int [4]
-          ]
+  json_state.vcxproj -> D:\programs\cpp_programs\json_state\Debug\json_state.exe
