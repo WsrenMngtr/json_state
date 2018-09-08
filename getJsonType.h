@@ -26,7 +26,7 @@ std::string getJsonArithmetic(const T& a) {
 // char
 template <typename T>
 std::string getJsonChar(const T& c) {
-	return { c };
+	return { '\'', c, '\'' };
 }
 
 // char*, const char*, char* const, const char* const
@@ -34,7 +34,7 @@ std::string getJsonChar(const T& c) {
 // std::string
 template <typename T>
 std::string getJsonStr(const T& str) {
-	return str;
+	return '\"' + std::string(str) + '\"';
 }
 
 // T[], const T[] but not char[]
@@ -42,12 +42,10 @@ std::string getJsonStr(const T& str) {
 template <typename T>
 std::string getJsonList(const T& l) {
 	std::string str;
-	str.append("[");
-	auto i = begin(l);
-	str.append(getJson(*i));
-	for (i++; i != end(l); i++) {
+	str.append("[ ");
+	for (const auto& element : l) {
+		str.append(getJson(element));
 		str.append(", ");
-		str.append(getJson(*i));
 	}
 	str.append("]");
 	return str;
@@ -56,20 +54,21 @@ std::string getJsonList(const T& l) {
 // pair
 template <typename T>
 std::string getJsonPair(const T& p) {
-	std::string str = getJson(p.first) + ": " + getJson(p.second);
+	return getJson(p.first) + ": " + getJson(p.second);
 }
 
 // set, multiset, unordered_set, unordered_multiset
 // map, multimap, unordered_map, unordered_multimap
 template <typename T>
-std::string getJsonAssoc(const T& p) {
+std::string getJsonAssoc(const T& c) {
 	std::string str;
-	str.append("{");
-	for (const T& element : array) {
+	str.append("{ ");
+	for (const auto& element : c) {
 		str.append(getJson(element));
 		str.append(", ");
 	}
 	str.append("}");
+	return str;
 }
 
 // other
