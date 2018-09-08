@@ -1,0 +1,4 @@
+﻿  json_state.cpp
+d:\programs\cpp_programs\json_state\json_state\definejsonstate.h(20): warning C4227: 使用了记时错误: 忽略引用上的限定符
+d:\programs\cpp_programs\json_state\json_state\definejsonstate.h(76): warning C4227: 使用了记时错误: 忽略引用上的限定符
+  json_state.vcxproj -> D:\programs\cpp_programs\json_state\Debug\json_state.exe
