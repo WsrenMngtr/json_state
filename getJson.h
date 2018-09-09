@@ -10,6 +10,7 @@
 #include <unordered_set>
 #include <map>
 #include <unordered_map>
+#include <tuple>
 
 #include <type_traits>
 
@@ -84,6 +85,14 @@ template <typename K, typename V>
 std::string getJson(const std::unordered_map<K, V>& m);
 template <typename K, typename V>
 std::string getJson(const std::unordered_multimap<K, V>& m);
+
+// tuple
+template <typename... Args>
+std::string getJson(const std::tuple<Args...>& t);
+template <size_t N>
+struct JsonTuple;
+template <>
+struct JsonTuple<0>;
 
 // Args...
 template <typename... Args>
@@ -168,6 +177,7 @@ std::string getJson(const std::pair<A, B>& p) {
 
 // set, multiset, unordered_set, unordered_multiset
 // map, multimap, unordered_map, unordered_multimap
+// tuple
 template <typename K>
 std::string getJson(const std::set<K>& c) {
 	return getJsonAssoc(c);
@@ -200,6 +210,26 @@ template <typename K, typename V>
 std::string getJson(const std::unordered_multimap<K, V>& m) {
 	return getJsonAssoc(m);
 }
+
+// tuple
+template <typename... Args>
+std::string getJson(const std::tuple<Args...>& t) {
+	return "{ " + JsonTuple<std::tuple_size_v<std::tuple<Args...>> - 1>()(t) + "}";
+}
+template <size_t N>
+struct JsonTuple {
+	template <typename... Args>
+	std::string operator()(const std::tuple<Args...>& t) {
+		return JsonTuple<N - 1>()(t) + getJson(std::get<N>(t)) + ", ";
+	}
+};
+template <>
+struct JsonTuple<0> {
+	template <typename... Args>
+	std::string operator()(const std::tuple<Args...>& t) {
+		return getJson(std::get<0>(t)) + ", ";
+	}
+};
 
 // std::is_arithmetic<T>() == std::true_type()
 // other
