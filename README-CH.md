@@ -23,7 +23,7 @@ std的所有容器类，initlizer_list，pair，tuple
 前提是加入的成员都能够被getJson(value)使用
 如果对自动生成的效果不满意，可以完全自定义getJson
 ```c++
-class Man {
+struct Man {
     std::string name;
     int age;
     GETJSON("name", name, "age", age)
@@ -31,7 +31,7 @@ class Man {
 Man man("Jhon Sms", 17);
 man.getJson() // { name: "Jhon Sms", age: 17, }
 // 你没有列入参数的成员不会被加入json
-class Man {
+struct Man {
     std::string name;
     int age;
     GETJSON("name", name)
@@ -39,17 +39,22 @@ class Man {
 Man man("Jhon Sms", 17);
 man.getJson() // { name: "Jhon Sms", }
 // 完全自定义
-class Man {
+struct Man {
     std::string firstName;
     std::string lastName;
     int age;
     std::string getJson() const {
-        return "{ name: " + getJson(first + "-" + lastName) +
-        "age" + getJson(age) + "}";
-    }
+		return "{ name: " + ::getJson(firstName + "-" + lastName) +
+			", age: " + ::getJson(age) + "}";
+	}
 };
 Man man("Jhon", "Sms", 17);
 man.getJson() // { name: "Jhon-Sms", age: 17, }
+```
+注意，上面的例子并不能写成这样
+```c++
+// 这会导致getJson(object)的值未初始化并且和对象的值不关联
+GETJSON("name", getJson(firstName + "-" + lastName), "age", age)
 ```
 ## 对于不想或者不能添加成员的类型，通过特化来定制
 以std::wstring为例，假设已经存在一个wstring向string转换的函数wstr2str
