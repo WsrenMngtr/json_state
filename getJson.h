@@ -29,7 +29,7 @@ std::string getJsonIsArith(const T& t, std::false_type);
 template <>
 std::string getJson(const char& c);
 
-// bool
+// bool//
 template <>
 std::string getJson(const bool& b);
 
@@ -270,7 +270,7 @@ std::string getJsonArgs(const T& t) {
 }
 
 // class, and must use memberName, member, ... as args
-#define GETJSON(...) function<string()> getJson = getJsonByMember(__VA_ARGS__);
+#define GETJSON(...) std::function<string()> getJson = getJsonByMember(__VA_ARGS__);
 template <typename... Args>
 std::function<std::string()> getJsonByMember(const Args&... args) {
 	return [&]()->std::string {
