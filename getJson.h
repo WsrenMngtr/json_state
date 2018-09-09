@@ -258,7 +258,7 @@ std::string getJsonIsArith(const T& t, std::false_type) {
 // Args...
 template <typename... Args>
 std::string getJson(const Args&... args) {
-	return "{ " + getJsonArgs(args...) + "}";
+	return "[ " + getJsonArgs(args...) + "]";
 }
 template <typename First, typename... Args>
 std::string getJsonArgs(const First& first , const Args&... args) {
