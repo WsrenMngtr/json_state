@@ -102,7 +102,16 @@ std::string getJsonArgs(const First& first, const Args&... args);
 template <typename T>
 std::string getJsonArgs(const T& t);
 
-//---------------------------------------
+// class, and must use memberName, member, ... as args
+template <typename... Args>
+std::function<std::string()> getJsonByMember(const Args&... args);
+template <typename First, typename... Args>
+std::string getJsonMember(const std::string& key, const First& value, const Args&... args);
+template <typename First>
+std::string getJsonMember(const std::string& key, const First& value);
+
+// =====================================================================
+// define
 
 // char
 template <>
@@ -258,4 +267,21 @@ std::string getJsonArgs(const First& first , const Args&... args) {
 template <typename T>
 std::string getJsonArgs(const T& t) {
 	return getJson(t);
+}
+
+// class, and must use memberName, member, ... as args
+#define GETJSON(...) function<string()> getJson = getJsonByMember(__VA_ARGS__);
+template <typename... Args>
+std::function<std::string()> getJsonByMember(const Args&... args) {
+	return [&]()->std::string {
+		return "{ " + getJsonMember(args...) + "}";
+	};
+}
+template <typename First, typename... Args>
+std::string getJsonMember(const std::string& key, const First& value, const Args&... args) {
+	return getJsonMember(key, value) + getJsonMember(args...);
+}
+template <typename First>
+std::string getJsonMember(const std::string& key, const First& value) {
+	return key + ": " + getJson(value) + ", ";
 }

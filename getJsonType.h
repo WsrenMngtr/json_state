@@ -33,24 +33,6 @@ std::string getJsonPair(const T& p);
 template <typename T>
 std::string getJsonPair(const T& p);
 
-// class, and must use memberName, member, ... as args
-template <typename... Args>
-std::function<std::string()> getJsonByMember(const Args&... args) {
-	return [&]()->std::string {
-		return "{ " + getJsonMember(args...) + "}";
-	};
-}
-
-template <typename First, typename... Args>
-std::string getJsonMember(const std::string& key, const First& value, const Args&... args) {
-	return getJsonMember(key, value) + getJsonMember(args...);
-}
-
-template <typename First>
-std::string getJsonMember(const std::string& key, const First& value) {
-	return key + ": " + getJson(value) + ", ";
-}
-
 // std::is_arithmetic<T>() == std::true_type()
 template <typename T>
 std::string getJsonArithmetic(const T& a) {
