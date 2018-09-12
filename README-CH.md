@@ -44,8 +44,8 @@ struct Man {
     std::string lastName;
     int age;
     std::string getJson() const {
-		return "{ name: " + ::getJson(firstName + "-" + lastName) +
-			", age: " + ::getJson(age) + "}";
+	return "{ name: " + ::getJson(firstName + "-" + lastName) +
+	    ", age: " + ::getJson(age) + "}";
 	}
 };
 Man man("Jhon", "Sms", 17);
