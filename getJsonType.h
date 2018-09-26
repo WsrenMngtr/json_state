@@ -33,6 +33,9 @@ std::string getJsonPair(const T& p);
 template <typename T>
 std::string getJsonPair(const T& p);
 
+template <typename T>
+std::string getJsonCon(const T& c);
+
 // std::is_arithmetic<T>() == std::true_type()
 template <typename T>
 std::string getJsonArithmetic(const T& a) {
@@ -90,6 +93,19 @@ std::string getJsonAssoc(const T& c) {
 		str.append(", ");
 	}
 	str.append("}");
+	return str;
+}
+
+// contrat
+template <typename T>
+std::string getJsonCon(const T& c, const char& leftChar, const char& rightChar) {
+	std::string str;
+	str.append({leftChar, ' '});
+	for (const auto& element : c) {
+		str.append(getJson(element));
+		str.append(", ");
+	}
+	str.append(rightChar);
 	return str;
 }
 
