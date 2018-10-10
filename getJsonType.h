@@ -62,50 +62,27 @@ std::string getJsonStr(const T& str) {
 	return "\"" + std::string(str) + "\"";
 }
 
-// T[], const T[] but not char[]
-// vector, deque, list, forward_list, initlizer_list
-template <typename T>
-std::string getJsonList(const T& l) {
-	std::string str;
-	str.append("[ ");
-	for (const auto& element : l) {
-		str.append(getJson(element));
-		str.append(", ");
-	}
-	str.append("]");
-	return str;
-}
-
 // pair
 template <typename T>
 std::string getJsonPair(const T& p) {
 	return getJson(p.first) + ": " + getJson(p.second);
 }
 
+// contrat
+// T[], const T[] but not char[]
+// vector, deque, list, forward_list, initlizer_list
 // set, multiset, unordered_set, unordered_multiset
 // map, multimap, unordered_map, unordered_multimap
+// other iterable contrat
 template <typename T>
-std::string getJsonAssoc(const T& c) {
+std::string getJsonContrat(const T& c, const char& leftChar, const char& rightChar) {
 	std::string str;
-	str.append("{ ");
+	str.append({ leftChar, ' ' });
 	for (const auto& element : c) {
 		str.append(getJson(element));
 		str.append(", ");
 	}
-	str.append("}");
-	return str;
-}
-
-// contrat
-template <typename T>
-std::string getJsonCon(const T& c, const char& leftChar, const char& rightChar) {
-	std::string str;
-	str.append({leftChar, ' '});
-	for (const auto& element : c) {
-		str.append(getJson(element));
-		str.append(", ");
-	}
-	str.append(rightChar);
+	str.append({ rightChar });
 	return str;
 }
 

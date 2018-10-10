@@ -155,27 +155,27 @@ std::string getJson(char* const& s) {
 // vector, deque, list, forward_list, initlizer_list
 template <typename T, size_t N>
 std::string getJson(T (&c)[N]) {
-	return getJsonList(c);
+	return getJsonContrat(c, '[', ']');
 }
 template <typename T>
 std::string getJson(const std::vector<T>& c) {
-	return getJsonList(c);
+	return getJsonContrat(c, '[', ']');
 }
 template <typename T>
 std::string getJson(const std::deque<T>& c) {
-	return getJsonList(c);
+	return getJsonContrat(c, '[', ']');
 }
 template <typename T>
 std::string getJson(const std::list<T>& c) {
-	return getJsonList(c);
+	return getJsonContrat(c, '[', ']');
 }
 template <typename T>
 std::string getJson(const std::forward_list<T>& c) {
-	return getJsonList(c);
+	return getJsonContrat(c, '[', ']');
 }
 template <typename T>
 std::string getJson(const std::initializer_list<T>& c) {
-	return getJsonList(c);
+	return getJsonContrat(c, '[', ']');
 }
 
 // pair
@@ -189,35 +189,35 @@ std::string getJson(const std::pair<A, B>& p) {
 // tuple
 template <typename K>
 std::string getJson(const std::set<K>& c) {
-	return getJsonAssoc(c);
+	return getJsonContrat(c, '{', '}');
 }
 template <typename K>
 std::string getJson(const std::multiset<K>& c) {
-	return getJsonAssoc(c);
+	return getJsonContrat(c, '{', '}');
 }
 template <typename K>
 std::string getJson(const std::unordered_set<K>& c) {
-	return getJsonAssoc(c);
+	return getJsonContrat(c, '{', '}');
 }
 template <typename K>
 std::string getJson(const std::unordered_multiset<K>& c) {
-	return getJsonAssoc(c);
+	return getJsonContrat(c, '{', '}');
 }
 template <typename K, typename V>
 std::string getJson(const std::map<K, V>& m) {
-	return getJsonAssoc(m);
+	return getJsonContrat(m, '{', '}');
 }
 template <typename K, typename V>
 std::string getJson(const std::multimap<K, V>& m) {
-	return getJsonAssoc(m);
+	return getJsonContrat(m, '{', '}');
 }
 template <typename K, typename V>
 std::string getJson(const std::unordered_map<K, V>& m) {
-	return getJsonAssoc(m);
+	return getJsonContrat(m, '{', '}');
 }
 template <typename K, typename V>
 std::string getJson(const std::unordered_multimap<K, V>& m) {
-	return getJsonAssoc(m);
+	return getJsonContrat(m, '{', '}');
 }
 
 // tuple
