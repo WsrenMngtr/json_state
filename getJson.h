@@ -269,13 +269,9 @@ std::string getJsonArgs(const T& t) {
 	return getJson(t);
 }
 
-// class, and must use memberName, member, ... as args
-#define GETJSON(...) std::function<string()> getJson = getJsonByMember(__VA_ARGS__);
-template <typename... Args>
-std::function<std::string()> getJsonByMember(const Args&... args) {
-	return [&]()->std::string {
-		return "{ " + getJsonMember(args...) + "}";
-	};
+// class, can use GETJSON(keyName, value, keyName, value, ...) like
+#define GETJSON(...) std::string getJson() const { \
+	return "{" + getJsonMember(__VA_ARGS__) + "}"; \
 }
 template <typename First, typename... Args>
 std::string getJsonMember(const std::string& key, const First& value, const Args&... args) {

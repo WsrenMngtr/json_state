@@ -1,5 +1,10 @@
 # 获得一个对象的JSON格式的工具
-
+## 更新内容
+现在可以写成这样
+```c++
+// 现在变换结果和对象的值关联了
+GETJSON("name", firstName + "-" + lastName, "age", age)
+```
 ## 包含getJson.h文件获得组件
 ```c++
 #include "getJson.h"
@@ -29,7 +34,7 @@ struct Man {
     GETJSON("name", name, "age", age)
 };
 Man man("Jhon Sms", 17);
-man.getJson() // { name: "Jhon Sms", age: 17, }
+man.getJson(); // { name: "Jhon Sms", age: 17, }
 // 你没有列入参数的成员不会被加入json
 struct Man {
     std::string name;
@@ -37,24 +42,16 @@ struct Man {
     GETJSON("name", name)
 };
 Man man("Jhon Sms", 17);
-man.getJson() // { name: "Jhon Sms", }
+man.getJson(); // { name: "Jhon Sms", }
 // 完全自定义
-struct Man {
-    std::string firstName;
-    std::string lastName;
-    int age;
+struct TypeArgs {
+    // 构造函数
+    std::vector<Type> types;
     std::string getJson() const {
-	return "{ name: " + ::getJson(firstName + "-" + lastName) +
-	    ", age: " + ::getJson(age) + "}";
-	}
+        return getJsonContrat(types, '<', '>');
 };
-Man man("Jhon", "Sms", 17);
-man.getJson() // { name: "Jhon-Sms", age: 17, }
-```
-注意，上面的例子并不能写成这样
-```c++
-// 这会导致getJson(object)的值未初始化并且和对象的值不关联
-GETJSON("name", getJson(firstName + "-" + lastName), "age", age)
+TypeArgs typeArgs("int", "long");
+getJson(typeArgs); // <int, long, >
 ```
 ## 对于不想或者不能添加成员的类型，通过特化来定制
 以std::wstring为例，假设已经存在一个wstring向string转换的函数wstr2str
